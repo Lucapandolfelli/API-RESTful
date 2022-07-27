@@ -1,53 +1,29 @@
+let products = [];
+
 class Producto {
-    
-    constructor(title, price, thumbnail){
-        this.title = title,
-        this.price = price,
-        this.thumbnail = thumbnail
-    }
+  getProducts() {
+    return products;
+  }
 
-    async fetchData(URL, method){
-        const res = await fetch(URL, method);
-        const data = await res.json();
-        return data;
-    }
+  getProduct(id) {
+    const foundProduct = products.find((producto) => producto.id == id);
+    return foundProduct;
+  }
 
-    async save(){
-        try{
-            const data = await this.fetchData('http://localhost:8080/api/productos', {method: 'POST'});
-            let productos = this.getAll();
-            productos.concat(data);
-        } catch(err){
-            console.log(err);
-        }
-    }
+  createProduct(newProduct) {
+    products.push(newProduct);
+    return newProduct;
+  }
 
-    async getById(id){
-        try{
-            const data = await this.fetchData(`http://localhost:8080/api/productos/${id}`, {method: 'GET'});
-            console.log(data);
-        } catch(err){
-            console.log(err);
-        }
-    }
+  editProduct(index, newProduct) {
+    products.splice(index, 1, newProduct);
+    return newProduct;
+  }
 
-    async getAll(){
-        try{
-            const data = await this.fetchData('http://localhost:8080/api/productos', {method: 'GET'});
-            console.log(data);
-        } catch(err){
-            console.log(err);
-        }
-    }
-
-    async deleteById(id){
-        try{
-            const data = await this.fetchData(`http://localhost:8080/api/productos/${id}`, {method: 'DELETE'});
-            console.log(data);
-        } catch(err){
-            console.log('El producto indicado ya se ha eliminado.');
-        }
-    }
+  deleteProduct(id) {
+    products = products.filter((item) => item.id != id);
+    return products;
+  }
 }
 
-module.exports = Producto;
+module.exports = new Producto();
