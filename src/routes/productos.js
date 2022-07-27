@@ -44,14 +44,11 @@ router
   .get((req, res) => {
     const { id } = req.params;
     const productos = Producto.getProducts();
-    const producto = Producto.getProduct(id);
     if (productos.length === 0) {
       res.json({ error: "No se encontraron productos." });
     } else {
       if (productos.length >= id) {
-        producto
-          ? res.json(producto)
-          : res.json({ error: "Producto no encontrado." });
+        res.json(Producto.getProduct(id));
       } else {
         res.json({ error: "Producto no encontrado" });
       }
